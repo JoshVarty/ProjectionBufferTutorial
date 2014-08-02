@@ -3,13 +3,13 @@ ProjectionBufferTutorial
 
 Full explanation and tutorial at: [http://joshvarty.wordpress.com/2014/08/01/ripping-the-visual-studio-editor-apart-with-projection-buffers/](http://joshvarty.wordpress.com/2014/08/01/ripping-the-visual-studio-editor-apart-with-projection-buffers/)
 
-**Note**: This project must be deployed to an instance of Visual Studio using Roslyn.
+**Note**: This project must be deployed to an instance of Visual Studio using Roslyn. The Language Services were rewritten to properly handle projection buffers.
 
 This project demonstrates the use of projection buffers with C# Language Services.
 
 Before running, you must modify the [filePath](https://github.com/JoshVarty/ProjectionBufferTutorial/blob/master/ProjectionBufferTutorial/MyToolWindow.cs#L24) string in [MyToolWindow.cs](https://github.com/JoshVarty/ProjectionBufferTutorial/blob/master/ProjectionBufferTutorial/MyToolWindow.cs).   It must point to a valid C# file on your machine.
 
-After downloading, uou must modify the properties of the project as follows:
+After downloading, you must modify the properties of the project as follows:
 
   1. Right click the project and select Properties
   
