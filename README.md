@@ -1,6 +1,8 @@
 ProjectionBufferTutorial
 ========================
 
+Full explanation and tutorial at: [http://joshvarty.wordpress.com/2014/08/01/ripping-the-visual-studio-editor-apart-with-projection-buffers/](http://joshvarty.wordpress.com/2014/08/01/ripping-the-visual-studio-editor-apart-with-projection-buffers/)
+
 **Note**: This project must be deployed to an instance of Visual Studio using Roslyn.
 
 This project demonstrates the use of projection buffers with C# Language Services.
