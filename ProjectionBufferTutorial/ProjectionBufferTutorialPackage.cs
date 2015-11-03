@@ -24,6 +24,7 @@ namespace Company.ProjectionBufferTutorial
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
+
             ToolWindowPane window = this.FindToolWindow(typeof(MyToolWindow), 0, true);
             if ((null == window) || (null == window.Frame))
             {
