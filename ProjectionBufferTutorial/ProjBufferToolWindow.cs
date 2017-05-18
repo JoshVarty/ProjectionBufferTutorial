@@ -16,12 +16,16 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.ComponentModelHost;
 using System.Windows.Forms;
 
-namespace Company.ProjectionBufferTutorial
+namespace ProjectionBufferTutorial
 {
-    [Guid("4a2b96fc-bf73-420e-ad92-dbc15aac6b39")]
-    public class MyToolWindow : ToolWindowPane, IOleCommandTarget
+    [Guid("e12a35c8-4a60-400a-af8e-5a1e4ed6cf50")]
+    public class ProjBufferToolWindow : ToolWindowPane, IOleCommandTarget
     {
+        //CHANGE ME TO A FILE THAT YOU HAVE OPENED IN VISUAL STUDIO WHEN LAUNCHING THE TOOL WINDOW
+        //CHANGE ME TO A FILE THAT YOU HAVE OPENED IN VISUAL STUDIO WHEN LAUNCHING THE TOOL WINDOW
         private string filePath = @"C:\Users\Josh\Documents\Visual Studio 2013\Projects\ConsoleApplication1\ConsoleApplication1\Program.cs";
+        //CHANGE ME TO A FILE THAT YOU HAVE OPENED IN VISUAL STUDIO WHEN LAUNCHING THE TOOL WINDOW
+        //CHANGE ME TO A FILE THAT YOU HAVE OPENED IN VISUAL STUDIO WHEN LAUNCHING THE TOOL WINDOW
 
         IComponentModel _componentModel;
         IVsInvisibleEditorManager _invisibleEditorManager;
@@ -31,16 +35,17 @@ namespace Company.ProjectionBufferTutorial
         ITextEditorFactoryService _editorFactoryService;
         IVsTextView _currentlyFocusedTextView;
 
-        public MyToolWindow() : base(null)
+        public ProjBufferToolWindow() : base(null)
         {
-            this.Caption = Resources.ToolWindowTitle;
+            this.Caption = "ProjBufferToolWindow";
+
             this.BitmapResourceID = 301;
             this.BitmapIndex = 1;
 
             _componentModel = (IComponentModel)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(SComponentModel));
             _invisibleEditorManager = (IVsInvisibleEditorManager)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(SVsInvisibleEditorManager));
             _editorAdapter = _componentModel.GetService<IVsEditorAdaptersFactoryService>();
-            _editorFactoryService = _componentModel.GetService<ITextEditorFactoryService>();    
+            _editorFactoryService = _componentModel.GetService<ITextEditorFactoryService>();
         }
 
         /// <summary>
@@ -134,14 +139,14 @@ namespace Company.ProjectionBufferTutorial
             }
         }
 
-        private MyControl _myControl;
+        private ProjBufferToolWindowControl _myControl;
         public override object Content
         {
             get
             {
                 if (_myControl == null)
                 {
-                    _myControl = new MyControl();
+                    _myControl = new ProjBufferToolWindowControl();
                     _myControl.fullFile.Content = CompleteTextViewHost;
                     _myControl.partialFile.Content = ProjectedTextViewHost;
                 }
@@ -177,8 +182,7 @@ namespace Company.ProjectionBufferTutorial
             return base.PreProcessMessage(ref m);
         }
 
-        int IOleCommandTarget.Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt,
-          IntPtr pvaIn, IntPtr pvaOut)
+        int IOleCommandTarget.Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
             var hr =
               (int)Microsoft.VisualStudio.OLE.Interop.Constants.OLECMDERR_E_NOTSUPPORTED;
@@ -191,8 +195,7 @@ namespace Company.ProjectionBufferTutorial
             return hr;
         }
 
-        int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[]
-          prgCmds, IntPtr pCmdText)
+        int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
         {
             var hr =
               (int)Microsoft.VisualStudio.OLE.Interop.Constants.OLECMDERR_E_NOTSUPPORTED;
