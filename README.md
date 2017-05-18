@@ -9,7 +9,7 @@ This project demonstrates the use of projection buffers with C# Language Service
 
 :exclamation: :exclamation:
 
-Before running, you must modify the [filePath](https://github.com/JoshVarty/ProjectionBufferTutorial/blob/master/ProjectionBufferTutorial/ProjBufferToolWindow.cs#L26) string in [MyToolWindow.cs](https://github.com/JoshVarty/ProjectionBufferTutorial/blob/master/ProjectionBufferTutorial/ProjBufferToolWindow.cs).   It must point to a valid C# file on your machine.
+Before running, you must modify the [filePath](https://github.com/JoshVarty/ProjectionBufferTutorial/blob/master/ProjectionBufferTutorial/ProjBufferToolWindow.cs#L26) string in [ProjBufferToolWindow.cs](https://github.com/JoshVarty/ProjectionBufferTutorial/blob/master/ProjectionBufferTutorial/ProjBufferToolWindow.cs).   It must point to a valid C# file on your machine.
 
 :exclamation: :exclamation:
 
