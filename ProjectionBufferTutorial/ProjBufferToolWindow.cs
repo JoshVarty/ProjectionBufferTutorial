@@ -62,10 +62,30 @@ namespace ProjectionBufferTutorial
                 , dwFlags: (uint)_EDITORREGFLAGS.RIEF_ENABLECACHING
                 , pFactory: null
                 , ppEditor: out invisibleEditor));
-
+            RegisterDocument(filePath);
             return invisibleEditor;
         }
+		
+        uint RegisterDocument(string targetFile)
+        {
+            //Then when creating the IVsInvisibleEditor, find and lock the document 
+            uint itemID;
+            IntPtr docData;
+            uint docCookie;
+            IVsHierarchy hierarchy;
+            var runningDocTable = (IVsRunningDocumentTable)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(SVsRunningDocumentTable));
 
+            ErrorHandler.ThrowOnFailure(runningDocTable.FindAndLockDocument(
+                dwRDTLockType: (uint) _VSRDTFLAGS.RDT_EditLock,
+                pszMkDocument: targetFile,
+                ppHier: out hierarchy,
+                pitemid: out itemID,
+                ppunkDocData: out docData,
+                pdwCookie: out docCookie));
+
+            return docCookie;
+        }
+		
         public IWpfTextViewHost CreateEditor(string filePath, int start = 0, int end = 0, bool createProjectedEditor = false)
         {
             //IVsInvisibleEditors are in-memory represenations of typical Visual Studio editors.
