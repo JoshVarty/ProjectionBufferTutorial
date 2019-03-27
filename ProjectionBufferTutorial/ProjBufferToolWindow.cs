@@ -103,8 +103,22 @@ namespace ProjectionBufferTutorial
 
             IVsTextLines docData = (IVsTextLines)Marshal.GetObjectForIUnknown(docDataPointer);
 
+            // This will actually be defined as _codewindowbehaviorflags2.CWB_DISABLEDIFF once the latest version of
+            // Microsoft.VisualStudio.TextManager.Interop.16.0.DesignTime is published. Setting the flag will have no effect
+            // on releases prior to d16.0.
+            const _codewindowbehaviorflags CWB_DISABLEDIFF = (_codewindowbehaviorflags)0x04;
+
             //Create a code window adapter
             var codeWindow = _editorAdapter.CreateVsCodeWindowAdapter(VisualStudioServices.OLEServiceProvider);
+
+            // You need to disable the dropdown, splitter and -- for d16.0 -- diff since you are extracting the code window's TextViewHost and using it.
+            ((IVsCodeWindowEx)codeWindow).Initialize((uint)_codewindowbehaviorflags.CWB_DISABLESPLITTER | (uint)_codewindowbehaviorflags.CWB_DISABLEDROPDOWNBAR | (uint)CWB_DISABLEDIFF,
+                                                     VSUSERCONTEXTATTRIBUTEUSAGE.VSUC_Usage_Filter,
+                                                     string.Empty,
+                                                     string.Empty,
+                                                     0,
+                                                     new INITVIEW[1]);
+
             ErrorHandler.ThrowOnFailure(codeWindow.SetBuffer(docData));
 
             //Get a text view for our editor which we will then use to get the WPF control for that editor.
@@ -125,7 +139,6 @@ namespace ProjectionBufferTutorial
                 var guid = VSConstants.VsTextBufferUserDataGuid.VsTextViewRoles_guid;
                 ((IVsUserData)codeWindow).SetData(ref guid, _editorFactoryService.CreateTextViewRoleSet(roles).ToString());
             }
-
 
             _currentlyFocusedTextView = textView;
             var textViewHost = _editorAdapter.GetWpfTextViewHost(textView);
@@ -167,8 +180,8 @@ namespace ProjectionBufferTutorial
                 if (_myControl == null)
                 {
                     _myControl = new ProjBufferToolWindowControl();
-                    _myControl.fullFile.Content = CompleteTextViewHost;
-                    _myControl.partialFile.Content = ProjectedTextViewHost;
+                    _myControl.fullFile.Content = CompleteTextViewHost.HostControl;     // Don't rely on the IWpfTextViewHost implementation being a FrameworkElement
+                    _myControl.partialFile.Content = ProjectedTextViewHost.HostControl;
                 }
                 return _myControl;
             }
